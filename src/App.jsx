@@ -4,6 +4,7 @@ import Header from "./components/Header"
 import SideBar from "./components/SideBar"
 import Banner from "./components/Banner"
 import Gallery from "./components/Gallery"
+import ModalZoom from "./components/ModalZoom"
 
 import photos from "./photos.json"
 import { useState } from "react"
@@ -11,9 +12,11 @@ import { useState } from "react"
 const App = () => {
 
     const [galleryPhotos, setGalleryPhotos] = useState(photos)
+    const [selectedPhotos, setSelectedPhotos] = useState(photos[1])
 
     const BackgroundGradient = styled.div`
         background: linear-gradient(174.61deg, #041883 4.16%, #04244F 48%, #154580 96.76%);
+        height: 375vh;
     `
 
     const AppContainer = styled.div`
@@ -37,7 +40,7 @@ const App = () => {
     `
 
     return (
-        <>
+
             <BackgroundGradient>
                 <GlobalStyles/>
                 <AppContainer>
@@ -52,9 +55,13 @@ const App = () => {
                             <Gallery photos={galleryPhotos}/>
                         </GalleryContent>                        
                     </MainContainer>
+                <ModalZoom 
+                    photo={selectedPhotos} 
+                    whenSelectPicture={photo => setSelectedPhotos(photo)} 
+                />
                 </AppContainer>
             </BackgroundGradient>
-        </>
+
     )
 }
 

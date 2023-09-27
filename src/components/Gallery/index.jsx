@@ -9,17 +9,35 @@ const GalleryContainer = styled.div`
 `
 
 const FluidSection = styled.section`
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
+    gap: 1.5em;
 `
 
-const Gallery = ( {photos = []} ) => {
+const PictureList = styled.ul`
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+`
+
+const Gallery = ( {photos = [], onSelectPhoto} ) => {
     return (
         <>      
             <Tags/>
             <GalleryContainer>
                 <FluidSection>
                     <Title>Browse the gallery</Title>
-                    <Picture photo={photos.map(photo => photo)}/>
+                    <PictureList>
+                        {photos.map(photo => (
+                            <Picture 
+                                key={photo.id} 
+                                photo={photo}
+                                onZoomRequested={onSelectPhoto}
+                            />
+                        ))}
+                    </PictureList>
                 </FluidSection>
                 <Populars/>
             </GalleryContainer>
