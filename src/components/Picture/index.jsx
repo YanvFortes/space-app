@@ -1,6 +1,8 @@
 import styled from "styled-components"
-import Button from "./Button"
-import { AiFillHeart, AiOutlineArrowsAlt } from "react-icons/ai"
+import Button from "../Button"
+import { AiOutlineArrowsAlt } from "react-icons/ai"
+import { IoMdHeartEmpty, IoMdHeart  } from "react-icons/io";
+
 
 const PictureContainer = styled.figure`
     background-color: #001634;
@@ -9,39 +11,35 @@ const PictureContainer = styled.figure`
     height: 336px;
     width: 448px;
 `
-
 const ImageStyled = styled.img`
     border-radius: 16px 16px 0 0;
     height: 256px;
     width: 100%;
 `
-
 const DescriptionContainer = styled.figcaption`
     padding: 1em;
 `
-
 const PictureTitle = styled.h3`
     color: #FFFFFF;
     font-size: 1.25rem;
     font-weight: 700;
 `
-
 const PictureFooter = styled.footer`
     align-items: center;
     display: flex;
     justify-content: space-between;
 `
-
 const ButtonsContainer = styled.div`
     display: flex;
     gap: 1em;
 `
-
 const PictureCredits = styled.p`
     color: #FFFFFF;
 `
 
-const Picture = ( {photo, onZoomRequested} ) => {
+const Picture = ( {photo, expanded = false, onZoomRequested, onToggleFavorite} ) => {
+
+    const favoriteIcon = photo.favorite ? <IoMdHeart/> : <IoMdHeartEmpty/>
         
     return (
         <PictureContainer>
@@ -51,12 +49,12 @@ const Picture = ( {photo, onZoomRequested} ) => {
                 <PictureFooter>
                     <PictureCredits>{photo.font}</PictureCredits>
                     <ButtonsContainer>
-                        <Button>
-                            <AiFillHeart/>
+                        <Button onClick={() => onToggleFavorite(photo)}>
+                            {favoriteIcon}
                         </Button>
-                        <Button onClick={() => onZoomRequested}>
+                        {!expanded && <Button aria-hidden={expanded} onClick={() => { onZoomRequested(photo)}}>
                             <AiOutlineArrowsAlt/>
-                        </Button>
+                        </Button>}
                     </ButtonsContainer>
                 </PictureFooter>
             </DescriptionContainer>

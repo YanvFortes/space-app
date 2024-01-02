@@ -7,14 +7,12 @@ import Picture from "../Picture"
 const GalleryContainer = styled.div`
     display: flex;
 `
-
 const FluidSection = styled.section`
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     gap: 1.5em;
 `
-
 const PictureList = styled.ul`
     align-items: center;
     display: flex;
@@ -22,7 +20,7 @@ const PictureList = styled.ul`
     gap: 2em;
 `
 
-const Gallery = ( {photos = [], onSelectPhoto} ) => {
+const Gallery = ( {photos = [], onSelectPhoto, onToggleFavorite} ) => {
     return (
         <>      
             <Tags/>
@@ -32,14 +30,17 @@ const Gallery = ( {photos = [], onSelectPhoto} ) => {
                     <PictureList>
                         {photos.map(photo => (
                             <Picture 
+                                onZoomRequested={onSelectPhoto}
+                                onToggleFavorite={onToggleFavorite}
                                 key={photo.id} 
                                 photo={photo}
-                                onZoomRequested={onSelectPhoto}
                             />
                         ))}
                     </PictureList>
                 </FluidSection>
-                <Populars/>
+                <Populars
+                    photos={photos}
+                />
             </GalleryContainer>
         </>
     )

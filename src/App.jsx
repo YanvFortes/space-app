@@ -12,13 +12,27 @@ import { useState } from "react"
 const App = () => {
 
     const [galleryPhotos, setGalleryPhotos] = useState(photos)
-    const [selectedPhotos, setSelectedPhotos] = useState(photos[1])
+    const [selectedPhotos, setSelectedPhotos] = useState(null)
+
+    const onToggleFavorite = (photo) => {
+        if (photo.id === selectedPhotos?.id) {
+            setSelectedPhotos({
+            ...selectedPhotos,
+            favorite: !selectedPhotos.favorite
+          })
+        }
+        setGalleryPhotos(galleryPhotos.map(galleryPhoto => {
+          return {
+            ...galleryPhoto,
+            favorite: galleryPhoto.id === photo.id ? !photo.favorite : galleryPhoto.favorite
+          }
+        }))
+      }
 
     const BackgroundGradient = styled.div`
         background: linear-gradient(174.61deg, #041883 4.16%, #04244F 48%, #154580 96.76%);
         height: 375vh;
     `
-
     const AppContainer = styled.div`
         box-sizing: border-box;
         height: 100vh;
@@ -27,12 +41,10 @@ const App = () => {
         padding: 0 1em;
         width: 1440px;
     `
-
     const MainContainer = styled.section`
         display: flex;
         gap: 2em;
     `
-
     const GalleryContent = styled.div`
         display: flex;
         flex-direction: column;
@@ -52,14 +64,19 @@ const App = () => {
                                 backgroundImage="/img/banner.png"
                                 text="The best galery of universe photos!"
                             />
-                            <Gallery photos={galleryPhotos}/>
+                            <Gallery 
+                                photos={galleryPhotos}
+                                onSelectPhoto={photo => setSelectedPhotos(photo)}
+                                onToggleFavorite={onToggleFavorite}
+                            />
                         </GalleryContent>                        
                     </MainContainer>
+                </AppContainer>
                 <ModalZoom 
                     photo={selectedPhotos} 
-                    whenSelectPicture={photo => setSelectedPhotos(photo)} 
+                    onClose={() => setSelectedPhotos(null)}
+                    onToggleFavorite={onToggleFavorite}
                 />
-                </AppContainer>
             </BackgroundGradient>
 
     )
